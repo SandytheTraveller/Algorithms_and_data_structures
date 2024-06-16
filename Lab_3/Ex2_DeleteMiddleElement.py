@@ -9,22 +9,49 @@
 # NOTE: you can use an auxiliary stack
 import sys
 sys.path.append("..")
-from LinearStructures import Stack
+from stack import Stack
 
-
+# iteration
 def deleteMidElem(st):
+    aux_st = Stack()
 
-     # TODO
-     pass
+    if st.size() % 2 == 1:
+        for i in range(st.size() // 2):
+            aux_st.push(st.pop())
+        st.pop()
+        while not aux_st.isEmpty():
+            st.push(aux_st.pop())
+    else:
+        for i in range(st.size() // 2 - 1):
+            aux_st.push(st.pop())
+        st.pop()
+        st.pop()
+        while not aux_st.isEmpty():
+            st.push(aux_st.pop())
+    return st
+
+def deleteMidElem_rec(st, mid_point, pos):
+    if st.isEmpty():
+        return
+
+    # Remove current item
+    item = st.pop()
+
+    # Recursive call
+    deleteMidElem_rec(st, mid_point, pos + 1)
+
+    # Put all items back except middle
+    if pos != mid_point:
+        st.push(item)
 
 
 # Test Code
 if __name__ == "__main__":
     st = Stack()
 
-    for i in range(1, 10):
-        st.push(i)
+    for i in range(1, 12):
+        st.push(i) # [1,2,3,4,5,6,7,8,9]
 
-    print(st)
+    print(st.elements)
     deleteMidElem(st)
-    print(st)
+    print(st.elements)

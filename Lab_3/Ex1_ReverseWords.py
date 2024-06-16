@@ -11,13 +11,15 @@ def reverserWords(input_string):
     revString = ""
     st = Stack()
 
-    for word in input_string:
+    words = input_string.split()
+
+    for word in words: # algorithms
         for ch in word:
             st.push(ch)
-        for _ in range(0, st.size()):
-            revString += st.pop()
-        st = Stack()
-
+        while not st.isEmpty():
+            revString = revString + st.pop()
+        revString += ' '
+    return revString
 
     # return the reversed string
     return revString
@@ -25,5 +27,5 @@ def reverserWords(input_string):
 
 # Test Code
 if __name__ == "__main__":
-    myString = "Algorithm and Data Structures"
+    myString = "Algorithms and Data Structures"
     print(reverserWords(myString))

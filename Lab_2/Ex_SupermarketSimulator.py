@@ -5,7 +5,7 @@
 import sys
 sys.path.append("..")
 
-from LinearStructures import Queue
+from queue import Queue
 import random
 
 
@@ -14,7 +14,7 @@ class Customer:
     def __init__(self, number, max_items):
         self.id = number
         # generate a random number of item between 1 and max_items
-        self.items = # TODO
+        self.items = random.randint(1, max_items + 1)
 
 
 # A cash desk has and ID, a queue of clients and can serve one Customer at a time
@@ -27,8 +27,7 @@ class Cashdesk:
 
     # Method to enqueue a new Customer c
     def addCustomer(self, c):
-
-        # TODO
+        self.queue.enqueue(c)
 
 
     # Method for check out
@@ -43,30 +42,44 @@ class Cashdesk:
     # Example of message: "Cash desk 1 served Customer number 2"
     #
     def checkOut(self):
-
-        # TODO
-
+        if self.current_customer != None:
+            if self.current_customer.items == 0:
+                print(f'Cash desk {self.id} served Customer {self.current_customer.id}')
+                self.current_customer = None
+                self.tot_customers_served += 1
+            else:
+                self.current_customer.items -= 1
+        elif not self.queue.isEmpty():
+            self.current_customer = self.queue.dequeue()
 
 # A Supermarket has a number of check desks specified by user
 class Supermarket:
-    def __init__(self, num_checdesks):
-        # Initialize a list of check decks with dimension num_checdesks
-        self.cashdesks_list =  # TODO
+    def __init__(self, num_checkdesks):
+        # Initialize a list of check decks with dimension num_checkdesks
+        self.cashdesks_list =  [Cashdesk(i) for i in range(1, num_checkdesks + 1)]
+
 
     # Return True if all the check desks are empty, False otherwise
     def isEmpty(self):
+        for i in self.cashdesks_list:
+            if not i.queue.isEmpty():
+                return False
+        return True
 
-        # TODO
 
     # Add a new Customer to the check desk with the shortest queue
     def newCustomer(self, new_customer):
+        short_id = 0
+        for i in range(1, len(self.cashdesks_list)):
+            if self.cashdesks_list[short_id].queue.size() > self.cashdesks_list[i].queue.size():
+                short_id = i
+        self.cashdesks_list[short_id].queue.enqueue(new_customer)
 
-        # TODO
 
     # Execute the method checkOut for each check desks
     def run(self):
-
-        # TODO
+        for desk in self.cashdesks_list:
+            desk.checkOut()
 
     # Print the total number of customers served by each check desks
     #
@@ -75,8 +88,8 @@ class Supermarket:
     #       ...
     #
     def printRecap(self):
-
-        # TODO
+        for desk in self.cashdesks_list:
+            print(f'Cash desk {desk.id} served {desk.tot_customers_served} clients')
 
 
 # Test code
@@ -94,9 +107,13 @@ if __name__ == "__main__":
     # Loop until all the customers are entered and served (i.e. both customer_list and all the queues are empty
     # A new Customer enters in the Supermarket with probability of 30% (use random function)
     # The function run is always called at each iteration
-    #
-    # TODO
-    #
+
+    while customers_list != [] or not mySupermarket.isEmpty():
+        if random.random() >= 0.3 and len(customers_list) > 0:
+            c = customers_list.pop()
+            mySupermarket.newCustomer(c)
+        mySupermarket.run()
+
 
 
     # Print the total number of customers served by each check desk
