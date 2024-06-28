@@ -1,47 +1,38 @@
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
+# Compute the Pascal's Triangle using recursion
+#
+#         1           n = 0
+#       1   1         n = 1
+#     1   2   1       n = 2
+#   1   3   3   1     n = 3
+# 1   4   6   4   1   n = 4
+# ...
+#
+# You can print the triangle like this:
+#
+# [1]
+# [1, 1]
+# [1, 2, 1]
+# [1, 3, 3, 1]
+# [1, 4, 6, 4, 1]
+# ...
+#
+# NOTE: You can use iterative loop(s) inside recursion
 
-    def getData(self):
-        return self.data
 
-    def getNext(self):
-        return self.next
+def pascal(n):
+    if n == 0:
+        return [1]
 
-    def setData(self, newData):
-        self.data = newData
+    previous = pascal(n - 1)
+    current = [1]
+    for i in range(1, len(previous)):
+        current.append(previous[i - 1] + previous[i])
+    current.append(1)
+    return current
 
-    def setNext(self, newNext):
-        self.next = newNext
 
-class UnOrderedList:
-    def __init__(self):
-        self.head = None
+if __name__ == "__main__":
+    n = 4
+    for i in range(n+1):
+        print(pascal(i))
 
-    def isEmpty(self):
-        return self.head == None
-
-    def size(self):
-        size = 0
-        current = self.head
-        while current != None:
-            size += 1
-            current = current.getNext()
-
-        return size
-
-    def add(self, elem):
-        newElement = Node(elem)
-        newElement.setNext(self.head)
-        self.head = newElement
-
-    def search(self, item):
-        current = self.head
-        found = False
-        while current != None:
-            if current.getData() != item:
-                current = current.getNext()
-            else:
-                found = True
-        return found
