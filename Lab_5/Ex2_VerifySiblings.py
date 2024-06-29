@@ -22,11 +22,19 @@ class Node:
         self.rightChild = None
 
 
+# recursive solution using a preorder traversal
 def areSiblings(root, nodeA, nodeB):
-    if root is None or nodeA is None or nodeB is None:
+    if root is None or root.leftChild is None or root.rightChild is None:
         return False
 
-    # TODO
+    left_key = root.leftChild.key
+    right_key = root.rightChild.key
+
+    # return true is A and B are the children of the current node
+    if (left_key == nodeA and right_key == nodeB) or (left_key == nodeB and right_key == nodeA):
+        return True
+
+    return areSiblings(root.leftChild, nodeA, nodeB) or areSiblings(root.rightChild, nodeA, nodeB)
 
 
 # Test code
