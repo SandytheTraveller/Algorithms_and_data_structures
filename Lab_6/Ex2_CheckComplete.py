@@ -39,6 +39,7 @@
 #       D    E    F
 #
 
+from queue import Queue
 
 class Node:
     # WARNING: DO NOT MODIFY THIS INITIALIZATION METHOD!
@@ -48,11 +49,83 @@ class Node:
         self.rightChild = None
 
 
+# recursive solution
 def verifyComplete(root):
+    return __verifyComplete_recursive(root, 0, countNodes(root))
+
+# auxiliary function to count the number of nodes in the tree
+def countNodes(root):
+    if root is None:
+        return 0
+    return 1 + countNodes(root.leftChild) + countNodes(root.rightChild)
+
+# auxiliary method using indexes as in binary heap
+def __verifyComplete_recursive(root, i, numNodes):
+    if root is None: # if tree is empty
+        return True
+
+    if i >= numNodes:
+        return False
+
+    return(__verifyComplete_recursive(root.leftChild, 2 * i + 1, numNodes) and
+           __verifyComplete_recursive(root.rightChild, 2 * i + 2, numNodes))
+
+# Solution using level order traversal
+def verifyComplete_levorder(root):
     if root is None:
         return True
 
-    # TODO
+    q = Queue()
+    q.enqueue(root)
+
+    # this flag become true if a non-full node is encountered
+    # we defined a non-full node as a node with 0 or 1 child
+    nonFullNode = False
+
+    while not q.isEmpty():
+        current = q.dequeue()
+
+        if current.leftChild:
+            if nonFullNode:
+                return False
+            q.enqueue(current.leftChild)
+        else:
+            nonFullNode = True
+
+        if current.rightChild:
+            if nonFullNode:
+                return False
+            q.enqueue(current.rightChild)
+        else:
+            nonFullNode = True
+
+    return True
+
+
+# alternative shorter solution with level order traversal
+def verifyComplete_levorder_alt(root):
+    if root is None:
+        return True
+
+    q = Queue()
+    q.enqueue(root)
+
+    # this flag become true when a NULL node is encountered
+    nullNode = False
+
+    while not q.isEmpty():
+        current = q.dequeue()
+
+        if current is None:
+            nullNode = True
+        else:
+            if nullNode:
+                return False
+            q.enqueue(current.leftChild)
+            q.enqueue(current.rightChild)
+
+    return True
+
 
 
 # Test code

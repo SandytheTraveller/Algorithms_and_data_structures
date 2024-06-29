@@ -4,14 +4,37 @@
 
 # Returns true if the array is a max-heap
 def _isMaxHeap(arr):
+    n = len(arr)
+    arr.insert(0, 0) # add zero at the beginning to simplify the index computation
 
-    # TODO
+    # check all nodes
+    for i in range(1, n):
+        # if left child is greater return false
+        if 2 * i <= n and arr[2 * i] > arr[i]:
+            return False
+        # if right child is greater return false
+        if 2 * i + 1 <= n and arr[2 * i + 1] > arr[i]:
+            return False
+    return True
 
-    pass
+# optimized version with less iteratios and no addition of an initial zero
+def isMax_optimized(arr):
+    n = len(arr)
+    # check all the nodes
+    # we can stop the loop in the middle of the list
+    # since after that point the nodes are all leaves
+    for i in range(1, n//2):
+        # if left child is greater, return false
+        if arr[2 * i + 1] > arr[i]:
+            return False
+        # if right child is greater, return false
+        if arr[2 * i + 2] > arr[i]:
+            return False
+    return True
 
 
 def isMaxHeap(arr):
-    if _isMaxHeap(arr):
+    if isMax_optimized(arr):
         print("Yes")
     else:
         print("No")
