@@ -87,10 +87,8 @@ class BST:
     def _findSuccessor(self, node):
         successor = node.rightChild
 
-        # Find the leftmost leaf
-        while successor.leftChild is not None:
+        while successor.hasLeftChild():
             successor = successor.leftChild
-
         return successor
 
     def _delete(self, node, key):

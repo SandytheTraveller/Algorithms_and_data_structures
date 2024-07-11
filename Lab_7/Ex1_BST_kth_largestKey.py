@@ -9,14 +9,50 @@
 #
 
 from BST import BST
+from stack import Stack
 
-
+# iterative solution
 def get_kthLargest(root, k):
-    #
-    # TODO
-    #
-    pass
+    if root is None:
+        return
+    current = root
+    st = Stack()
 
+    index = 0
+
+    while not st.isEmpty() or current is not None:
+        if current is not None:
+            st.push(current)
+            current = current.rightChild
+
+        elif not st.isEmpty():
+            current = st.pop()
+            index += 1
+
+            if index == k:
+                return current.key, current.value
+            current = current.leftChild
+
+
+# recursive solution usin an inverted inorder traversal
+def __kthLargest(root, k, c):
+    if root is None or c[0] >= k:
+        return
+    right = __kthLargest(root.rightChild, k, c)
+
+    c[0] += 1
+    if c[0] == k:
+        return root.key, root.value
+
+    left = __kthLargest(root.leftChild, k, c)
+
+    return left or right
+
+def get__kthLargest(root, k):
+    # we use a list of one element as a counter instead of a variable
+    # to avoid unwanted wrong increments during recursion
+    c = [0]
+    return __kthLargest(root, k, c)
 
 if __name__ == "__main__":
 
