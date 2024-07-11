@@ -15,6 +15,7 @@ from stack import Stack
 def get_kthLargest(root, k):
     if root is None:
         return
+
     current = root
     st = Stack()
 

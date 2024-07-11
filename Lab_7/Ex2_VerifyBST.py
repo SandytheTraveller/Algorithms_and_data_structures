@@ -24,14 +24,8 @@ class Node:
         self.rightChild = None
 
 
-def isBST(root):
-
-    #
-    # TODO...
-    #
-
+def isBST(root, node):
     pass
-
 
 if __name__ == "__main__":
     # WARNING: DO NOT MODIFY THE TREE STRUCTURE!
@@ -53,7 +47,7 @@ if __name__ == "__main__":
     root2.rightChild.rightChild = Node(50)
 
     # Expected result: FALSE
-    print(isBST(root1))
+    print(isBST(root1, root1))
 
     # Expected result: TRUE
-    print(isBST(root2))
+    print(isBST(root2, root2))
