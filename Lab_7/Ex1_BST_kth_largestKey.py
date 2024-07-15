@@ -35,7 +35,7 @@ def get_kthLargest(root, k):
             current = current.leftChild
 
 
-# recursive solution usin an inverted inorder traversal
+# recursive solution using an inverted inorder traversal
 def __kthLargest(root, k, c):
     if root is None or c[0] >= k:
         return

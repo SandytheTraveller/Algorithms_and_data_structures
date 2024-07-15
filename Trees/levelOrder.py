@@ -8,6 +8,8 @@ def levelOrder(root):
     q.enqueue(root)
 
     while q.size() > 0:
+        # at each iteration, dequeue the current
+        # node and enqueue its children, if present
         current = q.dequeue()
         print(current.key)
 

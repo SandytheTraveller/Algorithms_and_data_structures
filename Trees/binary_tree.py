@@ -44,55 +44,12 @@ def isBalanced(root):
         return True
     return False
 
-def preorder(root):
-    if root:
-        print(root.key)
-        preorder(root.leftChild)
-        preorder(root.rightChild)
-
-
-def inorder(root):
-    if root:
-        inorder(root.leftChild)
-        print(root.key)
-        inorder(root.rightChild)
 
 def postorder(root):
     if root:
         postorder(root.leftChild)
         postorder(root.rightChild)
         print(root.key)
-
-def iterativePreorder(root):
-    if root is None:
-        return
-
-    st = Stack()
-    st.push(root)
-
-    while not st.isEmpty():
-        current = st.pop()
-        print(current.key)
-        if current.rightChild is not None:
-            st.push(current.rightChild)
-        if current.leftCHild is not None:
-            st.push(current.leftChild)
-
-def iterativeInorder(root):
-    if root is None:
-        return
-
-    st = Stack()
-    current = root
-
-    while not st.isEmpty() or current is not None:
-        if current is not None:
-            st.push(current)
-            current = current.leftChild
-        elif not st.isEmpty():
-            current = st.pop()
-            print(current.key)
-            current = current.rightChild
 
 
 def postorderIterative(root):
@@ -118,23 +75,6 @@ def postorderIterative(root):
             print(current.key)
             current = None
 
-def levelOrder(root):
-    if root is None:
-        return
-
-    q = Queue()
-    q.enqueue(root)
-
-    while q.size() > 0:
-        # at each iteration, dequeue the current
-        # node and enqueue its children, if present
-        currentNode = q.dequeue()
-        print(currentNode.key)
-
-        if currentNode.leftChild is not None:
-            q.enqueue(currentNode.leftChild)
-        if currentNode.rightChild is not None:
-            q.enqueue(currentNode.rightChild)
 
 def copyTree(root):
     if root is None:
