@@ -11,24 +11,11 @@
 from BST import BST
 
 
-def findSuccessor(node, root):
-    successor = root
-    while successor.leftChild and successor.leftChild.key != node.key:
-        successor = successor.leftChild
-    return successor
-
-
 def get_kthLargest(root, k):
-    largest = root
-    while largest.rightChild is not None:
-        largest = largest.rightChild
-
-    if k == 1:
-        return largest.key, largest.value
-    else:
-        return get_kthLargest(findSuccessor(largest, root), k - 1)
-
-
+    #
+    # TODO
+    #
+    pass
 
 
 if __name__ == "__main__":
