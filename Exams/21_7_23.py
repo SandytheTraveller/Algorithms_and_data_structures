@@ -60,10 +60,23 @@ class BST:
 # YOU CAN MODIFY THE FOLLOWING FUNCTION IN ANY WAY
 # YOU CAN ADD ADDITIONAL FUNCTIONS IF NEEDED
 def getPath(root, k):
+    if root is None:
+        return None
 
-    # TODO
+    path = []
+    current = root
 
-    return
+    while current is not None:
+        path.append(current.key)
+
+        if current.key == k:
+            return path
+        elif current.key < k:
+            current = current.rightChild
+        else:
+            current = current.leftChild
+
+    return None
 
 
 # Test code

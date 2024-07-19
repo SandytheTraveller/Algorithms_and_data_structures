@@ -1,16 +1,20 @@
 def heapify(aList, size, i):
     # Find largest among root and children
     largest = i
+
     l = 2 * i
     r = 2 * i + 1
+
     if l <= size and aList[i] < aList[l]:
         largest = l
     if r <= size and aList[largest] < aList[r]:
         largest = r
+
     # If root is not largest, swap with largest and continue heapify
     if largest != i:
         aList[i], aList[largest] = aList[largest], aList[i]
         heapify(aList, size, largest)
+
 
 def heapSort(aList):
     size = len(aList)

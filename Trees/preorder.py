@@ -12,10 +12,10 @@ def preorder(root):
         current = st.pop()
         print(current.key)
 
-        if current.leftChild is not None:
-            st.push(current.leftChild)
         if current.rightChild is not None:
             st.push(current.rightChild)
+        if current.leftChild is not None:
+            st.push(current.leftChild)
 
 
 # recursive implementation of the preorder traversal

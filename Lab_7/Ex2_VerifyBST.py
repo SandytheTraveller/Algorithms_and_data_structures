@@ -15,6 +15,8 @@
 #       10   18   30  50
 #
 
+import sys
+from stack import Stack
 
 # Basic binary tree
 class Node:
@@ -24,8 +26,140 @@ class Node:
         self.rightChild = None
 
 
-def isBST(root, node):
-    pass
+# Auxiliary method to find max key in a binary tree
+def maxValue(root):
+    # Base case
+    if root is None:
+        return -sys.maxsize  # set to -infinity
+
+    # Return maximum value of all the subtree
+    res = root.key
+    lres = maxValue(root.leftChild)
+    rres = maxValue(root.rightChild)
+    if lres > res:
+        res = lres
+    if rres > res:
+        res = rres
+    return res
+
+
+# Auxiliary method to find min key in a binary tree
+def minValue(root):
+    # Base case
+    if root is None:
+        return sys.maxsize  # set to +infinity
+
+    # Return minimum value of all the subtree
+    res = root.key
+    lres = minValue(root.leftChild)
+    rres = minValue(root.rightChild)
+    if lres < res:
+        res = lres
+    if rres < res:
+        res = rres
+    return res
+
+
+# Verify if the tree is a BST by checking if
+# max value in left subtree is smaller than the node
+# and min value in right subtree greater than the node
+#
+# Very inefficient!
+#
+def isBST(node):
+    if node is None:
+        return True
+
+    # false if the max of the left subtree is > than the key of the current root1 node
+    if node.leftChild is not None and maxValue(node.leftChild) >= node.key:
+        return False
+
+    # false if the min of the right subtree is < than the key of the current root1 node
+    if node.rightChild is not None and minValue(node.rightChild) <= node.key:
+        return False
+
+    # false if, recursively, the left and/or right subtree is not a BST
+    if not isBST(node.leftChild) or not isBST(node.rightChild):
+        return False
+
+    return isBST(node.leftChild) or isBST(node.rightChild)
+
+
+# Verify if the tree is a BST by keeping a valid range (starting from [-INFINITY, INFINITY])
+# and keep shrinking it down for each node as we go down recursively
+def isBST_preorder(node):
+    return __isBST_preorder(node, -sys.maxsize, sys.maxsize)
+
+
+# Auxiliary method for preorder traversal
+def __isBST_preorder(node, minKey, maxKey):
+    # base case
+    if node is None:
+        return True
+
+    # if the node's value falls outside the valid range
+    if node.key < minKey or node.key > maxKey:
+        return False
+
+    # recursively check left and right subtrees with an updated range
+    return __isBST_preorder(node.leftChild, minKey, node.key) and __isBST_preorder(node.rightChild, node.key, maxKey)
+
+
+# Verify if the tree is a BST using an inorder traversal
+def isBst_inorder(root):
+    # base case: empty tree is a BST
+    if root is None:
+        return True
+    prev_key = [-sys.maxsize]
+    return __isBst_inorder(root, prev_key)
+
+
+# Auxiliary method for inorder traversal
+def __isBst_inorder(root, prev_key):
+    # base case: empty tree is a BST
+    if root is None:
+        return True
+
+    left = __isBst_inorder(root.leftChild, prev_key)
+
+    if root.key < prev_key[0]:
+        return False
+
+    prev_key[0] = root.key
+
+    right = __isBst_inorder(root.rightChild, prev_key)
+
+    return left and right
+
+
+# Verify if the tree is a BST using an iterative inorder traversal
+def isBst_inorder_iterative(root):
+
+    # base case: empty tree is a BST
+    if root is None:
+        return True
+
+    current = root
+    st = Stack()
+    prev_key = - sys.maxsize
+
+    while not st.isEmpty() or current is not None:
+
+        if current is not None:
+            st.push(current)
+            current = current.leftChild
+
+        elif not st.isEmpty():
+            current = st.pop()
+
+            if current.key < prev_key:
+                return False
+
+            prev_key = current.key
+
+            current = current.rightChild
+
+    return True
 
 if __name__ == "__main__":
     # WARNING: DO NOT MODIFY THE TREE STRUCTURE!
@@ -47,7 +181,7 @@ if __name__ == "__main__":
     root2.rightChild.rightChild = Node(50)
 
     # Expected result: FALSE
-    print(isBST(root1, root1))
+    print(isBst_inorder_iterative(root1))
 
     # Expected result: TRUE
-    print(isBST(root2, root2))
+    print(isBst_inorder_iterative(root2))

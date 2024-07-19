@@ -15,9 +15,9 @@ class Stack:
         return self.elements.pop()
 
     # return the last element, but do not remove it
-    def peak(self):
-        if len(self.items) > 0:
-            return self.items[-1]
+    def peek(self):
+        if len(self.elements) > 0:
+            return self.elements[-1]
 
     # return the size of the stack
     def size(self):
